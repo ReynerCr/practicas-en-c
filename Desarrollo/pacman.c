@@ -34,7 +34,7 @@
 
 int main() {
 	//Declaración de variables
-	int i, j, pj, jc, jf, contdin, conttdin, dirq, q1, q2;
+	int i, j, pj, jc, jf, contdin, conttdin, dirq, qf, qc;
 	char resp;
 	
 	// mapita
@@ -67,18 +67,16 @@ int main() {
 	getch();
 	system ("cls");
 	fflush (stdin);
-	jc=10;
 	jf=17;
-	q1=9;
-	q2=10;
+	jc=10;
+	qf=9;
+	qc=10;
 	contdin=0;
  
 	// impresion de mapita por primera vez    
 	mat[jf][jc]=p;
-	mat[q1][q2]=q;
 	conttdin=0;
 	srand(time(NULL));
-	dirq=rand()%2;
 	for (i=0; i<PF; i++) {
 		printf ("\n"); 
 		for (j=0; j<PC; j++) {
@@ -113,10 +111,11 @@ int main() {
 		resp=0;
 		
 		// escaneo de tecla contínuo
-		if (kbhit()) 
+	//	if (kbhit()) 
 		resp=getch();
 		
   		mat[jf][jc]=k;
+  		mat[qf][qc]=k;
   		
   		//control del personaje y condiciones de victoria/derrota.
   		if (resp==ABA) {
@@ -190,17 +189,36 @@ int main() {
 
  	 	} //IZQUIERDA
  	 	
- 	 	if(dirq==1){ //derecha
-			if(mat[q1][q2+1]==o || mat[q1][q2+1]==k) {
-				q2++;
+		dirq=rand()%4;
+ 	 	if (dirq==0) {
+ 	 		if (mat[qf][qc-1]==k || mat[qf][qc-1]==o) {
+ 	 			qc--;
 			}
-			else
-				dirq=!dirq;
-		}//dir
-  
+		} //DIRQ IZQUIERDA
+		
+		if (dirq==1) {
+			if (mat[qf][qc+1]==k || mat[qf][qc+1]==o) {
+				qc++;
+			}
+		} //DIRQ DERECHA
+		
+		if (dirq==2) {
+			if (mat[qf+1][qc]==k || mat[qf+1][qc]==o) {
+				qf++;
+			}
+		} //DIRQ ABAJO
+		
+		if (dirq==3) {
+			if (mat[qf-1][qc]==k || mat[qf-1][qc-1]==o) {
+				qf--;
+			}
+		} //DIRQ ARRIBA
+  		// IDEA PARA QUE EL FANTASMA NO SEA TAN LOCO: QUE CUANDO LLEGUE A UNA PARED YENDO DESDE ESA DIRECCIÓN, COMPRUEBE SI EN OTRA PUEDE IR
+  		// CUANDO ESTÉ A 4 CASILLAS DE DISTANCIA DE PACMAN, QUE LE PERSIGA if matqf-4==FJ {seguir pacman};
 		//reimpresión de mapita
 		system("CLS");
-		mat[jf][jc]=p;  
+		mat[jf][jc]=p;
+		mat[qf][qc]=q; 
 		for (i=0; i<PF; i++) {
 				printf ("\n"); 
 				for (j=0; j<PC; j++) {
@@ -209,6 +227,7 @@ int main() {
 		}
 		// impresión de contador.
 		printf ("\n\n%c=%d/172", o, contdin);
+		printf ("\n\naleatorio=%d", dirq);
 		//Sleep (25);
 		
 	} //while
