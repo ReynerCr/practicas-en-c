@@ -136,6 +136,7 @@ int juego (int map[F][C], int nivel) {
 				}
 				DC++;
 			}
+		//CONTADOR SIN NECESIDAD DE FOR, CUANDO LLEGUE A 3 EL BLOQUE CAE; SE UTILIZARÌA UNA VARIABLE auxBLOCK PARA QUE SE ACTIVE LA CONDICI”N DEL IF (auxBLOCK==3) {  if (map[bf][bc]==0) bc++;
 		} //DERECHA
 		map[DF][DC]=3;
 		imprimir (map, nivel);

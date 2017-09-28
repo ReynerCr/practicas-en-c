@@ -95,6 +95,8 @@ int main() {
  
 	//tecla, juego y reimpresiones de mapa
 	resp=0;
+	dirq=5;
+	dirq=rand()%2;
 	while(resp!='x') {
   		mat[jf][jc]=k;
   		mat[qf][qc]=k;
@@ -198,14 +200,14 @@ int main() {
 			}
  	 	} //IZQUIERDA
  	 	qf1=qf;
- 	 	dirq=5;
  	 	qc1=qc;
+ 	 	dirq1=dirq;
+		////// que dirq1=dirq y entonces al verific|ar que numero era, este no cambie HASTA QUE map[qf+-][qc+-]!=k || o;
  	 	
 		//MOVIMIENTO DE FANTASMA 1
- 	 	while (dirq!=6) { 
- 	 		if (dirq==5) {
-				dirq=rand()%4;
-			}
+ 	 	while (qf==qf1 && qc==qc1) {
+		//	if (dirq==5 || mat[qf][qc-1]!=k || mat[qf][qc+1]!=k || mat[qf][qc-1]!=o || mat[qf][qc+1]!=o || mat[qf+1][qc]!=k || mat[qf-1][qc]!=k || mat[qf+1][qc]!=o || mat[qf-1][qc]!=o)
+		//		dirq=rand()%4;  //ARREGLAR PARA QUE EN CASO DE MALA SUERTE NO CRASHEE. AÑADIR QUE VERIFIQUE SI PUEDE CAMBIAR DE DIRECCION EN CASO DE TENER CASILLA LIBRE A SUS LADOS.
 	 	 	if (dirq==0) {
 	 	 		if (qf==11 && qc==0) {
 					qf=11;
@@ -218,7 +220,7 @@ int main() {
 	 	 			qc--;
 				}
 				else {
-	 		 		dirq=6;
+	 		 		dirq=rand()%4;
 				}
 			} //DIRQ IZQUIERDA
 			
@@ -234,7 +236,7 @@ int main() {
 					qc++;
 				}
 				else {
-	 	 			dirq=6;
+	 	 			dirq=rand()%4;
 				}
 			} //DIRQ DERECHA
 		
@@ -247,7 +249,7 @@ int main() {
 					qf++;
 				}
 				else {
-	 	 			dirq=6;
+	 	 			dirq=rand()%4;
 				}
 			} //DIRQ ABAJO
 			
@@ -259,13 +261,12 @@ int main() {
 					} */
 					qf--;
 				}
-			else {
-	 	 		dirq=6;
-			}
+				else {
+	 	 			dirq=rand()%4;
+				}
 		} //DIRQ ARRIBA
 	} //while qf==qf1 && qc==q1
 		
-  		// IDEA: Q COMPROBARÁ SIEMPRE LAS CASILLAS DISPONIBLES EN SUS 4 DIRECCIONES, LUEGO SÍ INTENTARÁ SEGUIR HACIA DONDE ESTÉ LIBRE CON UN FOR PARA QUE AVANCE HASTA LA PARED
   		// CUANDO ESTÉ A 4 CASILLAS DE DISTANCIA DE PACMAN, QUE LE PERSIGA if matqf-4==FJ {seguir pacman}; 
 		//reimpresión de mapita
 		system("CLS");
