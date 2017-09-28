@@ -4,12 +4,14 @@
 #include <string.h>
 #include <time.h>
 #include <windows.h>
+#include <dos.h>
 #define DER 77
 #define IZQ 75
 #define ARRI 72
 #define ABA 80
 #define F 13
 #define C 17
+
 
 void mapa (int map[F][C], int niv);
 int copiar (int matorig[F][C], int matcopia[F][C]);
@@ -39,7 +41,7 @@ void mapa (int map[F][C], int niv) {
 					 {7, 2, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 7},  //11,9=pos personaje contando desde 0
 					 {7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7}};
 					 
-					 copiar(niv1, map);
+					 copiar (niv1, map);
 					 // 7=muro del juego, 0=espacio, 1=tierra, 2=esmeraldas
 					 //3=jugador, 4=enemigo y 5=enemigo excavador, 6=bolsa de $
 					
@@ -48,13 +50,14 @@ void mapa (int map[F][C], int niv) {
 int copiar(int matorig[F][C],int matcopia[F][C]){
 	int i,j;
 	for(i=0;i<F;i++)
-		for(j=0;j<C;j++)
+		for(j=0;j<C;j++) {
 			matcopia[i][j]=matorig[i][j];
-	
-}//copiar
+		}
+}//int copiar
 
 void imprimir (int map[F][C], int nivel) {
 	int i, j;
+	Sleep (70);
 	system ("CLS");
 	for(i=0;i<F;i++){
 		printf("\n");
@@ -80,7 +83,7 @@ void imprimir (int map[F][C], int nivel) {
 } //void imprimir
 
 int juego (int map[F][C], int nivel) {
-	int DF, DC, contv, contdin;
+	int DF, DC, contv, contdin, segundos;
 	char resp;
 	DF=11;
 	DC=8;
@@ -90,8 +93,11 @@ int juego (int map[F][C], int nivel) {
 	imprimir (map, nivel);
 	printf ("\n\n$=%d\t@=%d", contdin, contv);
 	resp=0;
+	
 	while (resp!='x') {
 		resp=0;
+		fflush (stdin);
+		if (kbhit()) 
 		resp=getch();
 		map[DF][DC]=0;
 		
@@ -101,6 +107,7 @@ int juego (int map[F][C], int nivel) {
 					contdin=contdin+25;
 				}
 				DF--;
+				//ERROR LóGICO.
 			}
 		} //ARRIBA
 		
@@ -130,10 +137,16 @@ int juego (int map[F][C], int nivel) {
 				DC++;
 			}
 		} //DERECHA
-		
 		map[DF][DC]=3;
 		imprimir (map, nivel);
 		printf ("\n\n$=%d\t@=%d", contdin, contv);
-	}
-}
+		int k;
+		segundos=0;
+		/*for (k=0; k<3; k++) {
+			Sleep(70);
+			segundos++;
+			//printf ("\n\n%d", segundos);
+		} *///for segundos
+	} // while
+} //int juego
 

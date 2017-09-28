@@ -25,16 +25,16 @@
 #define n 196  //cierre de cajita fantasmas
 #define t 79   //"t"
 #define k 32   //espacio
-#define q 169  //fantasma 1
+#define q 225  //fantasma 1
 #define r 81   //fantasma 2
 #define s 227  //fantasma 3
-#define u 225  //fantasma 4
+#define u 169  //fantasma 4
 
 
-
+// ARREGLAR BOLITAS: EL FANTASMA SE COME LAS BOLITAS Y NO LAS RECOLOCA DONDE ES.
 int main() {
 	//Declaración de variables
-	int i, j, pj, jc, jf, contdin, conttdin, dirq, qf, qc;
+	int i, j, pj, jc, jf, contdin, conttdin, dirq, qf, qc, qf1, qc1, bolita0, bolita1, bolita2, bolita3, dirq1;
 	char resp;
 	
 	// mapita
@@ -69,54 +69,65 @@ int main() {
 	fflush (stdin);
 	jf=17;
 	jc=10;
-	qf=9;
+	qf=9;  //9,10
 	qc=10;
 	contdin=0;
+	bolita0=5;
+	bolita1=5;
+	bolita2=5;
+	bolita3=5;
+	dirq=5;
+	dirq1=5;
+	
  
 	// impresion de mapita por primera vez    
 	mat[jf][jc]=p;
+	
 	conttdin=0;
 	srand(time(NULL));
 	for (i=0; i<PF; i++) {
 		printf ("\n"); 
 		for (j=0; j<PC; j++) {
 			printf ("%c", mat[i][j]);
-    	/*	if (mat[i][j]==a || mat[i][j]==b || mat[i][j]==c|| mat[i][j]==d|| mat[i][j]==f|| mat[i][j]==g|| mat[i][j]==h|| mat[i][j]==y|| mat[i][j]==z || mat[i][j]==v) {				
-				system ("color 09");
-				printf ("%c", mat[i][j]);
-			}
-			if (mat[i][j]==p) {
-				system ("color 06");
-				printf ("%c", mat[i][j]);
-			}							 	 //BUSCAR COMO IMPRIMIR EN COLORCITO BONITO.
-			if (mat[i][j]==o) {
-				system ("color 07");
-				printf ("%c", mat[i][j]);
-			}
-			if (mat[i][j]==t) {
-				system ("color 04");
-				printf ("%c", mat[i][j]);
-			} */
-     		/*if (mat[i][j]==o) {
-    			conttdin++;
-			} SI AÑADO MAS COMESTIBLES*/
    		}
     }
     printf ("\n\n%c=%d/172", o, contdin);
-  // si añado más comestibles  printf ("\n\n%c=%d/174", o, contdin);
  
 	//tecla, juego y reimpresiones de mapa
 	resp=0;
 	while(resp!='x') {
-		resp=0;
-		
-		// escaneo de tecla contínuo
-	//	if (kbhit()) 
-		resp=getch();
-		
   		mat[jf][jc]=k;
   		mat[qf][qc]=k;
   		
+		/* //arreglo de bolitas  
+		if (bolita0==6 && dirq1==7) {
+  			mat[qf][qc-1]=o;
+  			bolita0=5;
+  			dirq1=dirq;
+		}
+		if (bolita1==6 && dirq1==7) {
+  			mat[qf][qc+1]=o;
+  			bolita1=5;
+  			dirq1=dirq;
+		}
+		if (bolita2==6 && dirq1==7) {
+  			mat[qf+1][qc]=o;
+  			bolita2=5;
+  			dirq1=dirq;
+		}
+		if (bolita3==6 && dirq1==7) {
+  			mat[qf-1][qc]=o;
+  			bolita3=5;
+			dirq1=dirq;
+		}  */
+		
+		// escaneo de tecla contínuo
+		if (kbhit()) {
+			resp=getch();
+  		}
+  		else {
+  			resp=resp;
+		}
   		//control del personaje y condiciones de victoria/derrota.
   		if (resp==ABA) {
    			if (mat[jf+1][jc]==o || mat[jf+1][jc]==k) {
@@ -143,11 +154,10 @@ int main() {
    						printf ("Felicitaciones.\n");
     					system ("pause");
     					return 0; 
-   				}  
-			}
+   					}  
+				}
 			jf--;
-   		}
-
+   			}
   		} //ARRIBA
   		
   		if (resp==DER) {
@@ -186,50 +196,92 @@ int main() {
     			}
 				jc--;
 			}
-
  	 	} //IZQUIERDA
+ 	 	qf1=qf;
+ 	 	dirq=5;
+ 	 	qc1=qc;
  	 	
-		dirq=rand()%4;
- 	 	if (dirq==0) {
- 	 		if (mat[qf][qc-1]==k || mat[qf][qc-1]==o) {
- 	 			qc--;
+		//MOVIMIENTO DE FANTASMA 1
+ 	 	while (dirq!=6) { 
+ 	 		if (dirq==5) {
+				dirq=rand()%4;
 			}
-		} //DIRQ IZQUIERDA
+	 	 	if (dirq==0) {
+	 	 		if (qf==11 && qc==0) {
+					qf=11;
+					qc=20;
+				}
+	 	 		if (mat[qf][qc-1]==k || mat[qf][qc-1]==o) {
+	 	 			/*if (mat[qf][qc-1]==o) {
+	 	 				bolita0++;
+	 	 			} */
+	 	 			qc--;
+				}
+				else {
+	 		 		dirq=6;
+				}
+			} //DIRQ IZQUIERDA
+			
+			if (dirq==1) {
+				if (qf==11 && qc==20) {
+					qf=11;
+					qc=0;
+				}
+				if (mat[qf][qc+1]==k || mat[qf][qc+1]==o) {
+					/* if (mat[qf][qc+1]==o) {
+						bolita1++;
+					} */
+					qc++;
+				}
+				else {
+	 	 			dirq=6;
+				}
+			} //DIRQ DERECHA
 		
-		if (dirq==1) {
-			if (mat[qf][qc+1]==k || mat[qf][qc+1]==o) {
-				qc++;
-			}
-		} //DIRQ DERECHA
-		
-		if (dirq==2) {
-			if (mat[qf+1][qc]==k || mat[qf+1][qc]==o) {
-				qf++;
-			}
-		} //DIRQ ABAJO
-		
-		if (dirq==3) {
-			if (mat[qf-1][qc]==k || mat[qf-1][qc-1]==o) {
-				qf--;
+			if (dirq==2) {
+				if (mat[qf+1][qc]==k || mat[qf+1][qc]==o) {
+					/*if (mat[qf+1][qc]==o) {
+						bolita2++;
+						dirq1++;
+				    } */
+					qf++;
+				}
+				else {
+	 	 			dirq=6;
+				}
+			} //DIRQ ABAJO
+			
+			if (dirq==3) {
+				if (mat[qf-1][qc]==k || mat[qf-1][qc]==o) {
+					/*if (mat[qf-1][qc]==o) {
+						bolita3++;
+						dirq1++;	
+					} */
+					qf--;
+				}
+			else {
+	 	 		dirq=6;
 			}
 		} //DIRQ ARRIBA
-  		// IDEA PARA QUE EL FANTASMA NO SEA TAN LOCO: QUE CUANDO LLEGUE A UNA PARED YENDO DESDE ESA DIRECCIÓN, COMPRUEBE SI EN OTRA PUEDE IR
-  		// CUANDO ESTÉ A 4 CASILLAS DE DISTANCIA DE PACMAN, QUE LE PERSIGA if matqf-4==FJ {seguir pacman};
+	} //while qf==qf1 && qc==q1
+		
+  		// IDEA: Q COMPROBARÁ SIEMPRE LAS CASILLAS DISPONIBLES EN SUS 4 DIRECCIONES, LUEGO SÍ INTENTARÁ SEGUIR HACIA DONDE ESTÉ LIBRE CON UN FOR PARA QUE AVANCE HASTA LA PARED
+  		// CUANDO ESTÉ A 4 CASILLAS DE DISTANCIA DE PACMAN, QUE LE PERSIGA if matqf-4==FJ {seguir pacman}; 
 		//reimpresión de mapita
 		system("CLS");
 		mat[jf][jc]=p;
 		mat[qf][qc]=q; 
+
 		for (i=0; i<PF; i++) {
-				printf ("\n"); 
-				for (j=0; j<PC; j++) {
-    				printf ("%c", mat[i][j]);
+			printf ("\n"); 
+			for (j=0; j<PC; j++) {
+    			printf ("%c", mat[i][j]);
 			}
 		}
 		// impresión de contador.
 		printf ("\n\n%c=%d/172", o, contdin);
-		printf ("\n\naleatorio=%d", dirq);
-		//Sleep (25);
-		
+		printf ("\nbolitas=%d %d %d %d", bolita0, bolita1, bolita2, bolita3);
+		Sleep (500);
 	} //while
  
 	system ("pause");
