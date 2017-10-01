@@ -6,10 +6,10 @@
 #include <time.h>
 #define PF 23  //PUNTO FILA
 #define PC 21  //PUNTO COLUMNA
-#define ABA 80  //flecha
-#define ARRI 72 //flecha
-#define DER 77  //flecha
-#define IZQ 75  //flecha
+#define ABA 80  //flecha abajo
+#define ARRI 72 //flecha arriba
+#define DER 77  //flecha derecha
+#define IZQ 75  //flecha izquierda
 #define a 201  //esquina
 #define b 205  //barra horizontal
 #define c 187  //esquina
@@ -29,28 +29,30 @@
 #define r 81   //fantasma 2
 #define s 227  //fantasma 3
 #define u 169  //fantasma 4
+// FIN LIBRERIAS Y DEFINE
+//---------------------------------------------
 
 void mapita (int mat[PF][PC], int nivel);
 int copiarmapita (int orig[PF][PC], int copia[PF][PC]);
 void imprimir (int mat[PF][PC], int contdin, int contvid);
-void fantasmatonto (int mat[PF][PC], int *qf, int *qc, int *dirq);
+int fantasmatonto (int mat[PF][PC], int *ftf, int *ftc, int *dirft);
 int juego (int mat[PF][PC], int nivel);
 
 // DECLARACION DE FUNCIONES
 // ---------------------------------------------
 
 
-int main(int argc, char *argv[]) {
+int main() {
 	int mat[PF][PC], nivel;
 	printf ("Controles:\n\nArriba\t\tAbajo\nIzquierda\tDerecha\nPulse una tecla DIFERENTE a las FLECHAS para continuar.\nPulse X para salir.");
-	system ("pause");
-	system ("cls");
 	fflush (stdin);
+	getch ();
+	system ("cls");
 	mapita (mat, nivel);
 	juego (mat, nivel);
 	return 0;
 } // INT MAIN
-//--------------------------------------- 
+//----------------------------------------------
 
 
 void mapita (int mat[PF][PC], int nivel) {
@@ -80,7 +82,7 @@ void mapita (int mat[PF][PC], int nivel) {
      			  	 
      			  	 copiarmapita (map,mat);						
 } // VOID MAPITA
-//--------------------------------------
+//------------------------------------------
 
 
 int copiarmapita (int orig[PF][PC], int copia[PF][PC]) {
@@ -89,7 +91,7 @@ int copiarmapita (int orig[PF][PC], int copia[PF][PC]) {
 		for(j=0;j<PC;j++)
 			copia[i][j]=orig[i][j];
 } // INT COPIARMAPITA
-//---------------------------------
+//------------------------------------------
 
 
 void imprimir (int mat[PF][PC], int contdin, int contvid) {
@@ -102,73 +104,61 @@ void imprimir (int mat[PF][PC], int contdin, int contvid) {
     }
     printf ("\n\n%c=%d/172\t\t@=%d", o, contdin, contvid);
 } // VOID IMPRIMIR
-//---------------------------------
+//------------------------------------------
 
 
-void fantasmatonto (int mat [PF][PC], int *qf, int *qc, int *dirq) {
-	int qf1, qc1;
-	qf1=*qf;
-  	qc1=*qc;
-  	
-	while (*qf==qf1 && *qc==qc1) {
-		// AÑADIR QUE VERIFIQUE SI PUEDE CAMBIAR DE DIRECCION EN CASO DE TENER CASILLA LIBRE A SUS LADOS.
-		 	if (*dirq==0) {
-	 	 		if (*qf==11 && *qc==0) {
-					*qf=11;
-					*qc=20;
-				}
-	 	 		if (mat[*qf][*qc-1]==k || mat[*qf][*qc-1]==o) {
-	 	 			*qc--;
-				}
-				else {
-	 		 		*dirq=rand()%4;
-				}
-			} //DIRQ IZQUIERDA
-			
-			if (*dirq==1) {
-				if (*qf==11 && *qc==20) {
-					*qf=11;
-					*qc=0;
-				}
-				if (mat[*qf][*qc+1]==k || mat[*qf][*qc+1]==o) {
-					/* if (mat[qf][qc+1]==o) {
-						bolita1++;
-					} */
-					*qc++;
-				}
-				else {
-	 	 			*dirq=rand()%4;
-				}
-			} //DIRQ DERECHA
+int fantasmatonto (int mat [PF][PC], int *ftf, int *ftc, int *dirft) {
+	int ftf1, ftc1;
+	ftf1=*ftf;
+  	ftc1=*ftc;
+  	printf ("  %d", *dirft);
+	while (*ftf==ftf1 && *ftc==ftc1) {
+		if (*dirft==0) {
+	  		if (*ftf==11 && *ftc==0) {
+				*ftf=11;
+				*ftc=20;
+			}
+ 	 		if (mat[*ftf][*ftc-1]==k || mat[*ftf][*ftc-1]==o) {
+	 			*ftc--;
+			}
+			else {
+	 			*dirft=rand()%4;
+			}
+		} //DIRQ IZQUIERDA
 		
-			if (*dirq==2) {
-				if (mat[*qf+1][*qc]==k || mat[*qf+1][*qc]==o) {
-					/*if (mat[qf+1][qc]==o) {
-						bolita2++;
-						dirq1++;
-				    } */
-					*qf++;
-				}
-				else {
-	 	 			*dirq=rand()%4;
-				}
-			} //DIRQ ABAJO
-			
-			if (*dirq==3) {
-				if (mat[*qf-1][*qc]==k || mat[*qf-1][*qc]==o) {
-					/*if (mat[qf-1][qc]==o) {
-						bolita3++;
-						dirq1++;	
-					} */
-					*qf--;
-				}
-				else {
-	 	 			*dirq=rand()%4;
-				}
-			} //DIRQ ARRIBA
-	} //while qf==qf1 && qc==q1
+		if (*dirft==1) {
+			if (*ftf==11 && *ftc==20) {
+				*ftf=11;
+				*ftc=0;
+			}
+			if (mat[*ftf][*ftc+1]==k || mat[*ftf][*ftc+1]==o) {
+				*ftc++;
+			}
+			else {
+	 				*dirft=rand()%4;
+			}
+		} //DIRQ DERECHA
+		
+		if (*dirft==2) {
+			if (mat[*ftf+1][*ftc]==k || mat[*ftf+1][*ftc]==o) {
+				*ftf++;
+			}
+			else {
+	 			*dirft=rand()%4;
+			}
+		} //DIRQ ABAJO
+		
+		if (*dirft==3) {
+			if (mat[*ftf-1][*ftc]==k || mat[*ftf-1][*ftc]==o) {
+				*ftf--;
+			}
+			else {
+	 			*dirft=rand()%4;
+			}
+		} //DIRQ ARRIBA
+	} //while ftf==ftf1 && ftc==ftc1
 } // INT FANTASMATONTO
-//-------------------------------------
+//----------------------------------------
 
 
 int juego (int mat[PF][PC], int nivel) {
@@ -183,12 +173,12 @@ int juego (int mat[PF][PC], int nivel) {
 	qc=10;
 	mat [jf][jc]=p;
 	mat [qf][qc]=q;
+	srand(time(NULL));
+  	dirq=rand()%2;
 	imprimir (mat, contdin, contvid);
 	
 	//tecla, juego 
 	resp=0;
-	srand(time(NULL));
-  	
   	
 	while(resp!='x') {
   		mat[jf][jc]=k;
@@ -276,10 +266,9 @@ int juego (int mat[PF][PC], int nivel) {
 	
 		////// que dirq1=dirq y entonces al verific|ar que numero era, este no cambie HASTA QUE map[qf+-][qc+-]!=k || o;
  	 	// CUANDO ESTÉ A 4 CASILLAS DE DISTANCIA DE PACMAN, QUE LE PERSIGA if matqf-4==FJ {seguir pacman}; 
-	
-		//reimpresión de mapita
-		printf ("   %d", dirq);
+		printf ("\n%d, %d ", qf, qc);
 		system ("pause");
+		//reimpresión de mapita
 		system("CLS");
 		mat[jf][jc]=p;
 		mat[qf][qc]=q; 
@@ -287,4 +276,4 @@ int juego (int mat[PF][PC], int nivel) {
 		Sleep (500);
 	} //while resp!='x'
 } // INT JUEGO 
-// ------------------------------------
+// ---------------------------------------
