@@ -12,11 +12,16 @@
 #define F 13
 #define C 17
 
+//Librerias y define
+//--------------------------------------
+
 
 void mapa (int map[F][C], int niv);
 int copiar (int matorig[F][C], int matcopia[F][C]);
 void imprimir (int map[F][C],int nivel);
 int juego (int map[F][C],int nivel);
+//Prototipos
+//--------------------------------------
 
 int main(int argc, char *argv[]) {
 	int nivel,campo[F][C];
@@ -25,6 +30,8 @@ int main(int argc, char *argv[]) {
 	juego (campo,nivel);
 	return 0;
 }//main
+//--------------------------------------
+
 
 void mapa (int map[F][C], int niv) {
 	int niv1[F][C]= {{7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7},
@@ -46,6 +53,8 @@ void mapa (int map[F][C], int niv) {
 					 //3=jugador, 4=enemigo y 5=enemigo excavador, 6=bolsa de $
 					
 } // void mapa
+//--------------------------------------
+
 
 int copiar(int matorig[F][C],int matcopia[F][C]){
 	int i,j;
@@ -54,6 +63,8 @@ int copiar(int matorig[F][C],int matcopia[F][C]){
 			matcopia[i][j]=matorig[i][j];
 		}
 }//int copiar
+//--------------------------------------
+
 
 void imprimir (int map[F][C], int nivel) {
 	int i, j;
@@ -81,12 +92,16 @@ void imprimir (int map[F][C], int nivel) {
 		}//for
 	}//for
 } //void imprimir
+//--------------------------------------
+
 
 int juego (int map[F][C], int nivel) {
-	int DF, DC, contv, contdin, segundos;
+	int DF, DC, contv, contdin, segundosbloque, i, j, auxsegundosbloque, block[F][C];
 	char resp;
 	DF=11;
 	DC=8;
+	auxsegundosbloque=0;
+	segundosbloque=0;
 	contv=3;
 	contdin=0;
 	map[DF][DC]=3;
@@ -95,9 +110,10 @@ int juego (int map[F][C], int nivel) {
 	resp=0;
 	
 	while (resp!='x') {
+		
 		resp=0;
 		fflush (stdin);
-		if (kbhit()) 
+		//if (kbhit()) 
 		resp=getch();
 		map[DF][DC]=0;
 		
@@ -107,7 +123,10 @@ int juego (int map[F][C], int nivel) {
 					contdin=contdin+25;
 				}
 				DF--;
-				//ERROR LÛGICO.
+				if (map[DF-1][DC]==6) {
+					auxsegundosbloque=1;
+					
+				}
 			}
 		} //ARRIBA
 		
@@ -136,18 +155,27 @@ int juego (int map[F][C], int nivel) {
 				}
 				DC++;
 			}
-		//CONTADOR SIN NECESIDAD DE FOR, CUANDO LLEGUE A 3 EL BLOQUE CAE; SE UTILIZARÌA UNA VARIABLE auxBLOCK PARA QUE SE ACTIVE LA CONDICI”N DEL IF (auxBLOCK==3) {  if (map[bf][bc]==0) bc++;
+		
 		} //DERECHA
+		Sleep (70);
+		if (auxsegundosbloque==1) {
+			segundosbloque++;
+		}
+		if (segundosbloque==4) {
+			auxsegundosbloque=0;
+			for(i=0;i<F;i++) {
+				for(j=0;j<C;j++) {
+					if (map[i][j]==6) {
+						block[i][j]=map[i][j];
+						//duda: guardar las posiciones de las bolsas en la matriz (aquÌ solo esto copiandola)
+					}//if 
+				} //for j=0;
+			}//for i=0 
+		}
 		map[DF][DC]=3;
 		imprimir (map, nivel);
 		printf ("\n\n$=%d\t@=%d", contdin, contv);
-		int k;
-		segundos=0;
-		/*for (k=0; k<3; k++) {
-			Sleep(70);
-			segundos++;
-			//printf ("\n\n%d", segundos);
-		} *///for segundos
+		printf ("   %d", segundosbloque);
 	} // while
 } //int juego
 
