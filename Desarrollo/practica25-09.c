@@ -153,81 +153,51 @@ int jugar(int map[F][C],int nivel){
 		//GENERAR UNA ESTRATEGIA PARA QUE EL SEGUNDO PERSONAJE ESTÉ EN CONSTANTE MOVIMIENTO E INICIE UNA PERSECUCIÓN DEL PRIMERO
 		map[FF][CF]=0;
 		
+		
 			if (CF!=CJ) {
 				if (CF>CJ) {
 					if (map[FF][CF-1]==0) {
 						CF--;
-						if (map[FF][CF-1]=='5') {
-							system ("cls");
-							printf ("Te comieron.");
-							return 0;
-						}
+					}
+					else if (map [FF][CF-1]==1 && FF>FJ) {
+						if (map[FF-1][CF]==0)
+						FF--;
+					}
+					else if (map [FF][CF-1]==1 && FF<FJ) {
+						if (map[FF+1][CF]==0)
+						FF++;
 					}
 				}
 				else {
 					if (map[FF][CF+1]==0) {
 						CF++;
-						if (map[FF][CF+1]=='5') {
-							system ("cls");
-							printf ("Te comieron.");
-							return 0;
-						}
 					}
-					
+					else if (map [FF][CF+1]==1 && FF>FJ) {
+						if (map[FF-1][CF]==0)
+							FF--;
+					}
+					else if (map [FF][CF+1]==1 && FF<FJ) {
+						if (map[FF+1][CF]==0)
+							FF++;
+					}
 				}
-			}
+			} //if cf!=cj
+			
+			
 			else {
 				if (FF>FJ) {
-					if (map[FF-1][CF]=='5') {
+					if (map[FF-1][CF]==0) {
 						FF--;
-						if (map[FF-1][CF]==5) {
-							system ("cls");
-							printf ("Te comieron.");
-							return 0;
-						}
 					}
 				}
 				else {
 					if (map[FF+1][CF]==0) {
-						if (map[FF+1][CF]=='5') {
-							system ("cls");
-							printf ("Te comieron.");
-							return 0;
-						}
 						FF++;
 					}
 				}
-			}
+			} //else
 		
- 			
-		/*	if(CF==CJ){ 
-				if(FF<FJ){  //ABAJO
-					if(map[FF+1][CF]==0){
-					FF++;
-					}
-				}
-				else{  //ARRIBA
-					if(map[FF-1][CF]==0){
-						FF--;
-					}
-				}					
-			}
-			else{   // CF!=CJ
-			
-			if(FF==FJ){  //igual fila
-				if(CF<CJ){ //DERECHA
- 					if(map[FF][CF+1]==0){
-						CF++;
-					}
-				}
-				else{ //IZQUIERDA
-					if(map[FF][CF-1]==0){
-						CF--;
-					}
-				}//else			
-			}
-		}//else
-		//--- */
+		
 	map[auxF][auxC]=0;	
 	map[FJ][CJ]=5;
 	map[FF][CF]=10;

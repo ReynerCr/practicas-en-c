@@ -96,7 +96,7 @@ void imprimir (int map[F][C], int nivel) {
 
 
 int juego (int map[F][C], int nivel) {
-	int DF, DC, contv, contdin, segundosbloque, i, j, auxsegundosbloque, block[F][C];
+	int DF, DC, contv, contdin, segundosbloque, i, j, auxsegundosbloque, bf, bc;
 	char resp;
 	DF=11;
 	DC=8;
@@ -125,7 +125,6 @@ int juego (int map[F][C], int nivel) {
 				DF--;
 				if (map[DF-1][DC]==6) {
 					auxsegundosbloque=1;
-					
 				}
 			}
 		} //ARRIBA
@@ -145,6 +144,9 @@ int juego (int map[F][C], int nivel) {
 					contdin=contdin+25;
 				}
 				DC--;
+				if (map[DF-1][DC]==6) {
+					auxsegundosbloque=1;
+				}
 			}
 		} //IZQUIERDA
 		
@@ -154,6 +156,10 @@ int juego (int map[F][C], int nivel) {
 					contdin=contdin+25;
 				}
 				DC++;
+				if (map[DF-1][DC]==6) {
+					auxsegundosbloque=1;
+				}
+				
 			}
 		
 		} //DERECHA
@@ -165,8 +171,12 @@ int juego (int map[F][C], int nivel) {
 			auxsegundosbloque=0;
 			for(i=0;i<F;i++) {
 				for(j=0;j<C;j++) {
-					if (map[i][j]==6) {
-						block[i][j]=map[i][j];
+					if (map[i][j]==6 && map[i+1][j]==0) {
+						bf=i;
+						bc=j;
+						map[bf][bc]=6;
+						bf--;
+						printf ("\n\t\tESTE ES EL CICLO");
 						//duda: guardar las posiciones de las bolsas en la matriz (aquí solo esto copiandola)
 					}//if 
 				} //for j=0;

@@ -35,7 +35,7 @@
 void mapita (int mat[PF][PC], int nivel);
 int copiarmapita (int orig[PF][PC], int copia[PF][PC]);
 void imprimir (int mat[PF][PC], int contdin, int contvid);
-int fantasmatonto (int mat[PF][PC], int *ftf, int *ftc, int *dirft);
+void fantasmatonto (int mat[PF][PC], int *ftf, int *ftc, int *dirft);
 int juego (int mat[PF][PC], int nivel);
 
 // DECLARACION DE FUNCIONES
@@ -107,56 +107,57 @@ void imprimir (int mat[PF][PC], int contdin, int contvid) {
 //------------------------------------------
 
 
-int fantasmatonto (int mat [PF][PC], int *ftf, int *ftc, int *dirft) {
-	int ftf1, ftc1;
+void fantasmatonto (int mat [PF][PC], int *ftf, int *ftc, int *dirft) {
+	int ftf1, ftc1, dirft1;
 	ftf1=*ftf;
   	ftc1=*ftc;
-  	printf ("  %d", *dirft);
-	while (*ftf==ftf1 && *ftc==ftc1) {
+
+	while (*ftf==ftf1 && *ftc==ftc1) { 
 		if (*dirft==0) {
 	  		if (*ftf==11 && *ftc==0) {
 				*ftf=11;
 				*ftc=20;
 			}
  	 		if (mat[*ftf][*ftc-1]==k || mat[*ftf][*ftc-1]==o) {
-	 			*ftc--;
+	 			*ftc=*ftc-1;
 			}
 			else {
 	 			*dirft=rand()%4;
 			}
 		} //DIRQ IZQUIERDA
 		
-		if (*dirft==1) {
+		else if (*dirft==1) {
 			if (*ftf==11 && *ftc==20) {
 				*ftf=11;
 				*ftc=0;
 			}
 			if (mat[*ftf][*ftc+1]==k || mat[*ftf][*ftc+1]==o) {
-				*ftc++;
+				*ftc=*ftc+1;
 			}
 			else {
 	 				*dirft=rand()%4;
 			}
 		} //DIRQ DERECHA
 		
-		if (*dirft==2) {
+		else if (*dirft==2) {
 			if (mat[*ftf+1][*ftc]==k || mat[*ftf+1][*ftc]==o) {
-				*ftf++;
+				*ftf=*ftf+1;
 			}
 			else {
 	 			*dirft=rand()%4;
 			}
 		} //DIRQ ABAJO
 		
-		if (*dirft==3) {
+		else if (*dirft==3) {
 			if (mat[*ftf-1][*ftc]==k || mat[*ftf-1][*ftc]==o) {
-				*ftf--;
+				*ftf=*ftf-1;
 			}
 			else {
 	 			*dirft=rand()%4;
 			}
 		} //DIRQ ARRIBA
-	} //while ftf==ftf1 && ftc==ftc1
+	} // while ftf==ftf1 && ftc==ftc1
+	
 } // INT FANTASMATONTO
 //----------------------------------------
 
@@ -261,19 +262,19 @@ int juego (int mat[PF][PC], int nivel) {
 				jc--;
 			}
  	 	} // IZQUIERDA
- 	 	
+ 	
 		fantasmatonto (mat, &qf, &qc, &dirq);
-	
-		////// que dirq1=dirq y entonces al verific|ar que numero era, este no cambie HASTA QUE map[qf+-][qc+-]!=k || o;
+		
  	 	// CUANDO ESTÉ A 4 CASILLAS DE DISTANCIA DE PACMAN, QUE LE PERSIGA if matqf-4==FJ {seguir pacman}; 
-		printf ("\n%d, %d ", qf, qc);
-		system ("pause");
+	//	printf ("Funcion juego: qf=%d, qc=%d ", qf, qc);
+	//	system ("pause");
 		//reimpresión de mapita
 		system("CLS");
 		mat[jf][jc]=p;
 		mat[qf][qc]=q; 
 		imprimir (mat, contdin, contvid);		
-		Sleep (500);
+		Sleep (100);
 	} //while resp!='x'
 } // INT JUEGO 
 // ---------------------------------------
+
