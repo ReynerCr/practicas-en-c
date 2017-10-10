@@ -37,7 +37,6 @@ int copiarmapita (int orig[PF][PC], int copia[PF][PC]);
 void imprimir (int mat[PF][PC], int contdin, int contvid);
 void fantasmatonto (int mat[PF][PC], int *ftf, int *ftc, int *dirft);
 int juego (int mat[PF][PC], int nivel);
-
 // DECLARACION DE FUNCIONES
 // ---------------------------------------------
 
