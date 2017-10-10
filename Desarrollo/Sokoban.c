@@ -17,7 +17,7 @@ void mapita (int mat[PF][PC], int nivel);
 int copiarmapita (int orig[PF][PC], int copia[PF][PC]);
 void imprimir (int mat[PF][PC], int contcajas);
 int juego (int mat[PF][PC], int nivel);
-// DECLARACION DE FUNCIONES
+// PROTOTIPOS DE FUNCIONES 
 // ---------------------------------------------
 
 int main() {
@@ -34,20 +34,20 @@ void mapita (int mat[PF][PC], int nivel) {
 	int map[PF][PC]={{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
      			  	 {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
      			  	 {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+     			  	 {1, 0, 0, 0, 0, 5, 0, 5, 0, 0, 0, 0, 0, 0, 1},
      			  	 {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-     			  	 {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+     			  	 {1, 0, 0, 0, 0, 0, 5, 0, 5, 5, 0, 0, 0, 0, 1},
+     			  	 {1, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+     			  	 {1, 0, 0, 0, 5, 0, 6, 6, 6, 6, 0, 5, 0, 0, 1}, //7,7=mitad contando desde cero;
+     			  	 {1, 0, 0, 0, 0, 0, 6, 6, 6, 6, 0, 0, 0, 0, 1},
+     			  	 {1, 0, 0, 0, 5, 0, 6, 6, 6, 6, 5, 0, 0, 0, 1},
      			  	 {1, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 1},
      			  	 {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-     			  	 {1, 0, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0, 0, 1}, //7,7=mitad contando desde cero;
+     			  	 {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 1},
      			  	 {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-     			  	 {1, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 1},
-     			  	 {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-     			  	 {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-     			  	 {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-     			  	 {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 6, 1},
      			  	 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
-     			  	 
-     			  	 copiarmapita (map,mat);						
+     		//0=espacio;   1=muro;   2= jugador;  5=caja;  6=puntoestrella;
+     			  	 copiarmapita (map, mat);						
 } // VOID MAPITA
 //------------------------------------------
 
@@ -83,42 +83,54 @@ void imprimir (int mat[PF][PC], int contcajas) {
 			}
    		}
     }
-    printf ("cajas=%d", contcajas);
+    printf ("\tcajas=%d", contcajas);
 } // VOID IMPRIMIR
 //------------------------------------------
 
 
 int juego (int mat[PF][PC], int nivel) {
-	//DECLARACION DE VARIABLES
-	int jf, jc, cf, cc, contcajas;
+	//DECLARACION DE VARIABLES:
+	int jf, jc, cf, cc, contcajas, i, j, matestrella[PF][PC], contcajitas;
 	char resp;
+	
+	//inicializacion de variables:
 	contcajas=0;
+	contcajitas=0;
 	cf=20;
 	cc=20;
-	jf=13;
-	jc=11;
+	jf=11;
+	jc=7;
 	mat[jf][jc]=2;
-	imprimir (mat, contcajas);
 	
-	//tecla de juego 
+	for (i=0; i<PF; i++) {
+		for (j=0; j<PF; j++) {
+			matestrella[i][j]=mat[i][j];
+			if (matestrella[i][j]==6) {
+				matestrella[i][j]=6;
+			}
+			if (matestrella[i][j]==5) {
+				contcajitas=contcajitas+1;
+			}
+		} //for J=0
+	} //for para copiar matestrella[i][j]
+	imprimir (mat, contcajas);
+	//tecla de juego :
 	resp=0;
 	while (resp!='x') {
-		mat[jf][jc]=0;
+		mat[jf][jc]=0;  //borrado de personaje
+	
+		resp=getch(); //escaneo de tecla
 		
-		// escaneo de tecla contínuo
-		//if (kbhit()) 
-			resp=getch();
-  		
-  		//movimiento de jugador y cajita si hay
+  		//movimiento de jugador y cajita si hay:
   		if (resp==ARRI) {
-  			if (mat[jf-1][jc]==0) {
-  				jf--;	
+  			if (mat[jf-1][jc]==0 || mat[jf-1][jc]==6) {
+				jf--;	
 			}
 			else if (mat[jf-1][jc]==5) {
 				cf=jf-1;
 				cc=jc;
 				mat[cf][cc]=0;
-				if (mat[cf-1][cc]==0) {
+				if (mat[cf-1][cc]==0 || mat[cf-1][cc]==6) {
 					cf--;
 					jf--;	
 				}
@@ -126,14 +138,14 @@ int juego (int mat[PF][PC], int nivel) {
 		} // ARRIBA
 		
   		if (resp==ABA) {
-  			if (mat[jf+1][jc]==0) {
+  			if (mat[jf+1][jc]==0 || mat[jf+1][jc]==6) {
   				jf++;	
 			}
 			else if (mat[jf+1][jc]==5) {
 				cf=jf+1;
 				cc=jc;
 				mat[cf][cc]=0;
-				if (mat[cf+1][cc]==0) {
+				if (mat[cf+1][cc]==0 || mat[cf+1][cc]==6) {
 					cf++;
 					jf++;	
 				}
@@ -141,14 +153,14 @@ int juego (int mat[PF][PC], int nivel) {
 		} // ABAJO
 		
 		if (resp==IZQ) {
-  			if (mat[jf][jc-1]==0) {
+  			if (mat[jf][jc-1]==0 || mat[jf][jc-1]==6) {
   				jc--;	
 			}
 			else if (mat[jf][jc-1]==5) {
 				cf=jf;
 				cc=jc-1;
 				mat[cf][cc]=0;
-				if (mat[cf][cc-1]==0) {
+				if (mat[cf][cc-1]==0 || mat[cf][cc-1]==6) {
 					cc--;
 					jc--;	
 				}
@@ -156,31 +168,48 @@ int juego (int mat[PF][PC], int nivel) {
 		} // IZQUIERDA
 		
 		if (resp==DER) {
-  			if (mat[jf][jc+1]==0) {
-  				jc++;	
+  			if (mat[jf][jc+1]==0 || mat[jf][jc+1]==6) {
+				jc++;	
 			}
 			else if (mat[jf][jc+1]==5) {
 				cf=jf;
 				cc=jc+1;
 				mat[cf][cc]=0;
 				if (mat[cf][cc+1]==0 || mat[cf][cc+1]==6) {
-					if (mat[cf][cc+1]==6) {
-						contcajas++;
-					}
 					cc++;
 					jc++;
+		
 				}
 			}
 		} // DERECHA
 		
-		
-  		system ("cls");
-  		mat[cf][cc]=5;
+		//Arreglo de los caracteres y contador de cajas:
+		mat[cf][cc]=5;
   		mat[jf][jc]=2;
+		contcajas=0;
+		for (i=0; i<PF; i++) {
+			for (j=0; j<PC; j++) {
+				if (matestrella[i][j]==6 && mat[i][j]==0) {
+					mat[i][j]=6;
+				}
+				if (matestrella[i][j]==6 && mat[i][j]==5) {
+					contcajas++;
+				}
+			}
+		}
+		
+		//condición de victoria:
+		if (contcajas==contcajitas) {
+			system ("cls");
+			printf ("felicidades");
+			system ("pause");
+			return 0;
+		}
+		
+		//imprimir y limpiado de pantalla:
+		system ("cls");
 		imprimir (mat, contcajas);
-		Sleep (80);
-	}
+	} //while resp!='x';
 	
 } // INT JUEGO 
 // ---------------------------------------
-
