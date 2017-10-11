@@ -1,9 +1,6 @@
 #include <stdio.h >  //librerías
 #include <stdlib.h>
 #include <conio.h>
-#include <string.h>
-#include <time.h>
-#include <windows.h>
 #define ESC 27 // ESCAPE (tecla)
 #define PF 11 //PUNTO FILA
 #define PC 11 //PUNTO COLUMNA
