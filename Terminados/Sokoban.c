@@ -71,12 +71,12 @@ void mapita (int mat[PF][PC], int *niv) {
      			  	  {1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
      			  	  {1, 0, 5, 0, 1, 0, 0, 0, 0, 0, 0},
      			  	  {1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-     			  	  {1, 0, 0, 5, 1, 0, 0, 0, 0, 0, 0}, // 4 contando desde 0;
+     			  	  {1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0}, // 4 contando desde 0;
      			  	  {1, 0, 5, 0, 1, 1, 0, 0, 0, 0, 0}, // 5 contando desde 0;
      			  	  {1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1},
-     			  	  {1, 0, 5, 5, 5, 1, 1, 1, 6, 6, 1}, 
+     			  	  {1, 0, 5, 5, 5, 1, 1, 6, 6, 0, 1}, 
      			  	  {1, 0, 0, 0, 0, 0, 0, 0, 6, 6, 1},
-     			  	  {1, 0, 0, 0, 1, 2, 1, 0, 6, 6, 1},
+     			  	  {1, 0, 0, 0, 1, 2, 1, 0, 0, 6, 1},
      			  	  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
     
     int map4[PF][PC]={{0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1},
@@ -93,14 +93,14 @@ void mapita (int mat[PF][PC], int *niv) {
      			  	  
     int map5[PF][PC]={{1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
      			  	  {1, 2, 0, 0, 0, 0, 6, 1, 1, 1, 1},
-     			  	  {1, 1, 1, 1, 0, 5, 0, 1, 6, 6, 1},
-     			  	  {0, 1, 1, 1, 0, 0, 0, 1, 0, 6, 1},
-     			  	  {0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1}, // 4 contando desde 0;
+     			  	  {1, 1, 1, 1, 0, 0, 0, 1, 6, 6, 1},
+     			  	  {0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1},
+     			  	  {0, 1, 0, 0, 0, 0, 0, 5, 0, 0, 1}, // 4 contando desde 0;
      			  	  {0, 1, 0, 0, 0, 5, 0, 1, 0, 0, 1}, // 5 contando desde 0;
      			  	  {0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1},
      			  	  {0, 1, 0, 5, 0, 5, 0, 5, 0, 0, 1}, 
      			  	  {0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1},
-     			  	  {0, 1, 6, 0, 0, 0, 0, 0, 0, 0, 1},
+     			  	  {0, 1, 6, 0, 0, 0, 0, 1, 6, 0, 1},
      			  	  {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
     switch (*niv) {
     	case 1:
@@ -166,8 +166,8 @@ void imprimir (int mat[PF][PC], int *niv) {
 
 int juego (int mat[PF][PC], int *niv) {
 	//DECLARACION DE VARIABLES:
-	int jf, jc, contcajas, i, j, matestrella[PF][PC], contcajitas, nivp;
-	char resp;
+	int jf, jc, contcajas, i, j, matestrella[PF][PC], contcajitas, nivp;    //int jf=jugador fila;  jc==jugador columna;  contcajas= contador de cajas en posición;  contcajitas= contador de cajas totales;
+	char resp;   //int matestrella= matriz auxiliar para realizar las comprobaciones;  nivp= puntero hacia nivel al momento de imprimir;        char resp= tecla ingresada;
 	
 	//inicializacion de variables:
 	contcajas=0;
@@ -271,6 +271,11 @@ int juego (int mat[PF][PC], int *niv) {
 			system ("cls");
 			printf ("Felicitaciones por completar el nivel %d\n", *niv);
 			system ("pause");
+			*niv=*niv+1;
+			resp='r';
+		}
+		
+		if (resp=='u') {
 			*niv=*niv+1;
 			resp='r';
 		}
