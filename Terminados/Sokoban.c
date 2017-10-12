@@ -275,11 +275,6 @@ int juego (int mat[PF][PC], int *niv) {
 			resp='r';
 		}
 		
-		if (resp=='u') {
-			*niv=*niv+1;
-			resp='r';
-		}
-		
 		//condición de salida:
 		if (resp==ESC) {
 			*niv=6;
