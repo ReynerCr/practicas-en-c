@@ -1,7 +1,6 @@
 #include <stdio.h >  //librerías
 #include <stdlib.h>
 #include <conio.h>
-#include <string.h>
 #include <Windows.h>
 #include <time.h>
 #define PF 23  //PUNTO FILA
@@ -16,14 +15,14 @@
 #define d 186  //barra vertical
 #define f 200  //esquina
 #define g 188  //esquina
-#define o 167  //comestibles
+#define o 250  //comestibles
 #define p 64   //pacman
 #define v 202  //"t"
 #define y 204  //"t"
 #define z 185  //"t"
 #define h 203  //"t"
 #define n 196  //cierre de cajita fantasmas
-#define t 79   //"t"
+#define t 79   //powerup
 #define k 32   //espacio
 #define q 225  //fantasma 1
 #define r 81   //fantasma 2
@@ -39,6 +38,45 @@ void fantasmatonto (int mat[PF][PC], int *ftf, int *ftc, int *dirft);
 int juego (int mat[PF][PC], int nivel);
 // DECLARACION DE FUNCIONES
 // ---------------------------------------------
+
+
+
+void gotoxy( int column, int line )
+  {
+  COORD coord;
+  coord.X = column;
+  coord.Y = line;
+  SetConsoleCursorPosition(
+    GetStdHandle( STD_OUTPUT_HANDLE ),
+    coord
+    );
+  }
+
+int wherex()
+  {
+  CONSOLE_SCREEN_BUFFER_INFO csbi;
+  COORD                      result;
+  if (!GetConsoleScreenBufferInfo(
+         GetStdHandle( STD_OUTPUT_HANDLE ),
+         &csbi
+         ))
+    return -1;
+  return result.X;
+  }
+
+int wherey()
+  {
+  CONSOLE_SCREEN_BUFFER_INFO csbi;
+  COORD                      result;
+  if (!GetConsoleScreenBufferInfo(
+         GetStdHandle( STD_OUTPUT_HANDLE ),
+         &csbi
+         ))
+    return -1;
+  return result.Y;
+  }
+//GOTOXY
+//-----------------------------------------------
 
 
 int main() {
@@ -95,12 +133,37 @@ int copiarmapita (int orig[PF][PC], int copia[PF][PC]) {
 
 void imprimir (int mat[PF][PC], int contdin, int contvid) {
 	int i, j;
-	for (i=0; i<PF; i++) {
-		printf ("\n"); 
+	for (i=0; i<PF; i++) { 
 		for (j=0; j<PC; j++) {
+			if (mat[i][j]==o) {
+				SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),6);	
+			}
+			else if (mat[i][j]==p) {
+				SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),14);
+			}
+			else if (mat[i][j]==q) {
+				SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),12);
+			}
+			else if (mat[i][j]==t) {
+				SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),6);
+			}
+			else if (mat[i][j]==r) {
+				SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),11);
+			}
+			else if (mat[i][j]==s) {
+				SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),13);
+			}
+			else if (mat[i][j]==u) {
+				SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),14);
+			}
+			else if (mat[i][j]!=k){
+				SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),9);
+			}
 			printf ("%c", mat[i][j]);
    		}
+   		printf ("\n");
     }
+    SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),15);
     printf ("\n\n%c=%d/172\t\t@=%d", o, contdin, contvid);
 } // VOID IMPRIMIR
 //------------------------------------------
