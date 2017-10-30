@@ -104,7 +104,7 @@ void imprimir(int map[F][C], int nivel){
 int jugar(int map[F][C],int nivel){
 	
 	char tecla;
-	int FJ,CJ,FF,CF,auxF,auxC;
+	int FJ,CJ,FF,CF,auxF,auxC, contmov;
 	int cambio;
 	FJ=13; CJ=13;
 	FF=6; CF=5;
@@ -112,9 +112,11 @@ int jugar(int map[F][C],int nivel){
 	map[FF][CF]=10;
 	imprimir(map,nivel);
 	tecla=0;
+	contmov=1;
 	while(tecla!='x'){
 		tecla=0;
 		cambio=0;
+		contmov++;
 		/*if(kbhit()){
 		*///if
 		tecla=getch();
@@ -153,7 +155,8 @@ int jugar(int map[F][C],int nivel){
 		//GENERAR UNA ESTRATEGIA PARA QUE EL SEGUNDO PERSONAJE ESTÉ EN CONSTANTE MOVIMIENTO E INICIE UNA PERSECUCIÓN DEL PRIMERO
 		map[FF][CF]=0;
 		
-		
+		if (contmov==2) {
+			contmov=0;
 			if (CF!=CJ) {
 				if (CF>CJ) {
 					if (map[FF][CF-1]==0) {
@@ -196,6 +199,7 @@ int jugar(int map[F][C],int nivel){
 					}
 				}
 			} //else
+		} //contmov
 		
 		
 	map[auxF][auxC]=0;	

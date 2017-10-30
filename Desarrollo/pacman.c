@@ -170,7 +170,7 @@ void imprimir (int mat[PF][PC], int contdin, int contvid) {
 
 
 void fantasmatonto (int mat [PF][PC], int *ftf, int *ftc, int *dirft) {
-	int ftf1, ftc1, dirft1;
+	int ftf1, ftc1, dirft1, procam;
 	ftf1=*ftf;
   	ftc1=*ftc;
 
@@ -186,6 +186,12 @@ void fantasmatonto (int mat [PF][PC], int *ftf, int *ftc, int *dirft) {
 			else {
 	 			*dirft=rand()%4;
 			}
+			if (mat[*ftf-1][*ftc]==k || mat[*ftf-1][*ftc]==o || mat[*ftf+1][*ftc]==k || mat[*ftf+1][*ftc]==o) {
+				procam=rand()%3;
+				if (procam==0) {
+					*dirft=rand()%4;
+				}
+			}
 		} //DIRQ IZQUIERDA
 		
 		else if (*dirft==1) {
@@ -197,7 +203,13 @@ void fantasmatonto (int mat [PF][PC], int *ftf, int *ftc, int *dirft) {
 				*ftc=*ftc+1;
 			}
 			else {
-	 				*dirft=rand()%4;
+	 			*dirft=rand()%4;
+			}
+			if (mat[*ftf-1][*ftc]==k || mat[*ftf-1][*ftc]==o || mat[*ftf+1][*ftc]==k || mat[*ftf+1][*ftc]==o) {
+				procam=rand()%3;
+				if (procam==2) {
+					*dirft=rand()%4;
+				}
 			}
 		} //DIRQ DERECHA
 		
@@ -208,6 +220,12 @@ void fantasmatonto (int mat [PF][PC], int *ftf, int *ftc, int *dirft) {
 			else {
 	 			*dirft=rand()%4;
 			}
+			if (mat[*ftf][*ftc+1]==k || mat[*ftf][*ftc+1]==o || mat[*ftf][*ftc-1]==k || mat[*ftf][*ftc-1]==o) {
+				procam=rand()%3;
+				if (procam==1) {
+					*dirft=rand()%4;
+				}
+			}
 		} //DIRQ ABAJO
 		
 		else if (*dirft==3) {
@@ -216,6 +234,12 @@ void fantasmatonto (int mat [PF][PC], int *ftf, int *ftc, int *dirft) {
 			}
 			else {
 	 			*dirft=rand()%4;
+			}
+			if (mat[*ftf][*ftc+1]==k || mat[*ftf][*ftc+1]==o || mat[*ftf][*ftc-1]==k || mat[*ftf][*ftc-1]==o) {
+				procam=rand()%3;
+				if (procam==0) {
+					*dirft=rand()%4;
+				}
 			}
 		} //DIRQ ARRIBA
 	} // while ftf==ftf1 && ftc==ftc1
