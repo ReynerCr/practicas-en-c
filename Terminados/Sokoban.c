@@ -1,6 +1,7 @@
 #include <stdio.h >  //librerías
 #include <stdlib.h>
 #include <conio.h>
+#include <windows.h>
 #define ESC 27 // ESCAPE (tecla)
 #define PF 11 //PUNTO FILA
 #define PC 11 //PUNTO COLUMNA
@@ -21,9 +22,47 @@ int juego (int mat[PF][PC], int *niv);
 // PROTOTIPOS DE FUNCIONES 
 // ---------------------------------------------
 
+
+void gotoxy( int column, int line ) {
+  COORD coord;
+  coord.X = column;
+  coord.Y = line;
+  SetConsoleCursorPosition(
+    GetStdHandle( STD_OUTPUT_HANDLE ),
+    coord
+    );
+}
+
+int wherex()
+  {
+  CONSOLE_SCREEN_BUFFER_INFO csbi;
+  COORD                      result;
+  if (!GetConsoleScreenBufferInfo(
+         GetStdHandle( STD_OUTPUT_HANDLE ),
+         &csbi
+         ))
+    return -1;
+  return result.X;
+  }
+
+int wherey()
+  {
+  CONSOLE_SCREEN_BUFFER_INFO csbi;
+  COORD                      result;
+  if (!GetConsoleScreenBufferInfo(
+         GetStdHandle( STD_OUTPUT_HANDLE ),
+         &csbi
+         ))
+    return -1;
+  return result.Y;
+}//GOTOXY
+//---------------------------------------------
+
+
 int main() {
 	int mat[PF][PC], nivel;
 	nivel=1;
+	SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),15);
 	printf ("\t    Sokoban muy basico.\n\nCONTROLES:\t\t\tFIGURAS:\n\n-Flechas para moverse.\t\t-Jugador= %c\n-R para reiniciar.\t\t-Caja= %c\n-Escape para salir.\t\t-Muro= %c\n\t\t\t\t-Punto para caja= *\n\n\n", J, C, B);
 	system ("pause");
 	fflush (stdin);
@@ -143,22 +182,27 @@ void imprimir (int mat[PF][PC], int *niv) {
 		printf ("\n");
 		for (j=0; j<PC; j++) {
 			if (mat[i][j]==1) {
+				SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),9);
 				printf ("%c", B);
 			}
 			if (mat[i][j]==0) {
 				printf (" ");
 			}
 			if (mat[i][j]==2) {
+				SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),15);
 				printf ("%c", J);
 			}
 			if (mat[i][j]==5) {
+				SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),14);
 				printf ("%c", C);
 			}
 			if (mat[i][j]==6) {
+				SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),10);
 				printf ("*");
 			}
    		}
     }
+    SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),15);
     printf ("\n\n\tNivel=%d", *niv);
 } // VOID IMPRIMIR
 //------------------------------------------
