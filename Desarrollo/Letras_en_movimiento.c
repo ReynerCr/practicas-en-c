@@ -5,6 +5,7 @@
 #include <ctype.h>
 #include <windows.h>
 #define t 100
+#define ESC 27
 //LIBRERIAS Y DEFINE
 //-----------------------------------------
 
@@ -44,7 +45,7 @@ int wherey() {
 //-----------------------------------------
 
 
-void letras (int unsigned letra[t], char unsigned cadena[t]);
+void letras (char unsigned cadena[t]);
 void imprimir (int mat[5][5], int i, int j);
 void switches (char unsigned var, int mat[5][5], int i);
 void copiarmat (int original[5][5], int copia[5][5], int i);
@@ -54,8 +55,8 @@ void copiarmat (int original[5][5], int copia[5][5], int i);
 
 int main () {
 	char unsigned cadena[t];
-	int unsigned letra[t], i;
-	printf ("Ingrese lo que quiera ver: \n");
+	int i;
+	printf ("Ingrese lo que quiera ver (solo mayusculas): \n");
 	strset (cadena, '\0');
 	fflush (stdin);
 	gets (cadena);
@@ -66,10 +67,11 @@ int main () {
 				break;
 		}
 		if ((cadena[i]>=65 && cadena[i]<=90) || (cadena[i]==164 || cadena[i]==165)) {
-			letra[i]=cadena[i];
+			cadena[i];
 		}
-	}
-	letras(letra, cadena);
+	} //for para detectar lo que se lee.
+	
+	letras(cadena);
 	printf ("\n\n\n%s", cadena);
 	fflush (stdin);
 	getch ();
@@ -78,32 +80,52 @@ int main () {
 //-----------------------------------------
 
 
-void letras (int unsigned letra[t], char unsigned cadena[t]) {
-	int i, j, k , auxi, mat[5][5];
-	char unsigned var;
-	
-	k=0;
-	auxi=0;
-	do {  //bucle de cadena
-		for (i=auxi; i<5; i=auxi) { //avance en filas de la matriz
-			for (j=0; j<5; j++) { //avance en columnas de la matriz
-				if (cadena[k]=='\0') {
-					auxi++;
-					k=0;
-					printf ("\n");
-					break;
-				}
-				var=cadena[k];
-				switches (var, mat, i);
-				imprimir (mat, i, j);
+void letras (char unsigned cadena[t]) {
+	int i, j, k , auxi, mat[5][5], esp, espi;
+	char unsigned var, resp;
+	esp=0;
+	resp=0;
+	do {
+		k=0;
+		auxi=0;
+		do {  //bucle de cadena
+		Sleep (40);
+			for (i=auxi; i<5; i=auxi) { //avance en filas de la matriz
+			
+				if (k==0) {
+					for (espi=0; espi<esp; espi++) {
+							printf ("  ");
+					}
+				} //condicion de movimiento de letras
 				
-				if (j==4) {
-					printf ("   ");
-					k++;
-				}
-			} //fin columnas
-		}  //fin filas
-	} while (auxi!=5); //fin bucle cadena
+				for (j=0; j<5; j++) { //avance en columnas de la matriz
+					if (cadena[k]=='\0') {
+						auxi++;
+						k=0;
+						printf ("\n");
+						break;
+					}
+					var=cadena[k];
+					switches (var, mat, i);
+					
+					if (cadena[k]!=' ') {
+						imprimir (mat, i, j);
+					}
+					
+					if (j==4) {
+						k++;
+					}
+				} //fin columnas
+				
+			}  //fin filas
+		} while (auxi!=i); //fin bucle cadena
+		Sleep (40);
+		system ("CLS");
+		esp++;
+		if (kbhit()) {
+			resp=getch();
+  		}
+	} while (resp!=ESC);
 } //VOID LETRAS
 //-----------------------------------------
 
@@ -392,6 +414,10 @@ void switches (char unsigned var, int mat[5][5], int i) {
 		
 		case 'Z':
 			copiarmat (Z, mat, i);
+			break;
+		
+		case ' ':
+			printf ("  ");
 			break;
 	}
 } //VOID SWITCHES
