@@ -49,6 +49,8 @@ void letras (char unsigned cadena[t], int kaux);
 void imprimir (int mat[5][5], int i, int j);
 void switches (char unsigned var, int mat[5][5], int i);
 void copiarmat (int original[5][5], int copia[5][5], int i);
+void primvez (int auxj, int *auxi, int i, char unsigned cadena[t], int kaux, int *k);
+void continualet (char unsigned cadena[t], int i, int *k, int kaux, int *auxi);
 //PROTOTIPOS
 //-----------------------------------------
 
@@ -78,40 +80,42 @@ int main () {
 
 
 void letras (char unsigned cadena[t], int kaux) {
-	int i, j, k , auxi, mat[5][5], esp, espi, auxj, contletra, contador;
+	int i, j, k , auxi, esp, espi, auxj, contletra, contador;
 	char unsigned var, resp;
 	esp=0;
 	resp=0;
 	auxj=4;
+	k=kaux;
+	contletra=0;
+	contador=0;
 	do {
-		k=kaux;
-		contletra=kaux;
 		auxi=0;
 		Sleep (500);
 			for (i=auxi; i<5; i=auxi) { //avance en filas de la matriz
-				/*if (k==-1) {
+				if (k==0 && auxj==-1) {
 					for (espi=0; espi<esp; espi++) {
-							printf ("  ");
+							printf (" ");
 					}
-				} //condicion de movimiento de letras*/
-				
-				for (j=auxj; j<5; j++) {	
-					var=cadena[k];
-					switches (var, mat, i);
-					imprimir (mat, i, j);
-				//	printf (" %d", j);
-					
-					if (k==kaux && j==4) {
-						auxi++;
-						printf ("\n");
-					}
-				/*	if (j==0) {
-						k--;
-					}*/
-				} //fin JJJJJJJJJJJJJ columnas
-			}  //fin filas
+				} //condicion de movimiento de letras	
+				if (kaux-contletra==k) {
+					primvez (auxj, &auxi, i, cadena, kaux, &k);
+				}
+				else { 
+					continualet (cadena, i, &k, kaux, &auxi);
+				}
+				if (k<kaux) { //SE VA A REPETIR SIEMPRE; HAY QUE CAMBIAR
+					k++;	
+				}
+			}//fin filas
+			
+			contador++;
+			if (contador==5 && kaux-contletra>=0) {
+				contador=0;
+				contletra++;
+				k=kaux-contletra;
+			}
 			if (auxj==0) {
-					auxj=5;
+				auxj=5;
 			}
 			auxj--;
 		Sleep (500);
@@ -122,6 +126,43 @@ void letras (char unsigned cadena[t], int kaux) {
   		}
 	} while (resp!=ESC);
 } //VOID LETRAS
+//-----------------------------------------
+
+void primvez (int auxj, int *auxi, int i, char unsigned cadena[t], int kaux, int *k) {
+	int j, mat[5][5];
+	char unsigned var;
+	for (j=auxj; j<5; j++) {	
+					var=cadena[*k];
+					switches (var, mat, i);
+					imprimir (mat, i, j);
+					
+					if (*k==kaux && j==4) {
+						*auxi=*auxi+1;
+						printf ("\n");
+					}
+	} //fin columnas
+}//VOID INICIOLETRA
+//-----------------------------------------
+
+void continualet (char unsigned cadena[t], int i, int *k, int kaux, int *auxi) {
+	int aux, mat[5][5], j;
+	char unsigned var;
+	aux=*k;
+	for (j=0; j<5; j++) { //avance en columnas de la matriz
+		if (*k==kaux) {
+			*auxi=*auxi+1;
+			*k=aux;
+			printf ("\n");
+			break;
+		}
+		var=cadena[*k];
+		switches (var, mat, i);		
+		
+		if (cadena[*k]!=' ') {
+			imprimir (mat, i, j);
+		}						
+	} //fin columnas
+}//VOID CONTINUALET
 //-----------------------------------------
 
 
