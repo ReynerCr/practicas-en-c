@@ -45,7 +45,7 @@ int wherey() {
 //-----------------------------------------
 
 
-void letras (char unsigned cadena[t]);
+void letras (char unsigned cadena[t], int kaux);
 void imprimir (int mat[5][5], int i, int j);
 void switches (char unsigned var, int mat[5][5], int i);
 void copiarmat (int original[5][5], int copia[5][5], int i);
@@ -55,7 +55,7 @@ void copiarmat (int original[5][5], int copia[5][5], int i);
 
 int main () {
 	char unsigned cadena[t];
-	int i;
+	int i, kaux;
 	printf ("Ingrese lo que quiera ver (solo mayusculas): \n");
 	strset (cadena, '\0');
 	fflush (stdin);
@@ -64,15 +64,12 @@ int main () {
 	
 	for (i=0; i<t; i++) {
 		if (cadena[i]=='\0') {
-				break;
-		}
-		if ((cadena[i]>=65 && cadena[i]<=90) || (cadena[i]==164 || cadena[i]==165)) {
-			cadena[i];
+			kaux=i-1;
+			break;
 		}
 	} //for para detectar lo que se lee.
 	
-	letras(cadena);
-	printf ("\n\n\n%s", cadena);
+	letras(cadena, kaux);
 	fflush (stdin);
 	getch ();
 	return 0;
@@ -80,46 +77,44 @@ int main () {
 //-----------------------------------------
 
 
-void letras (char unsigned cadena[t]) {
-	int i, j, k , auxi, mat[5][5], esp, espi;
+void letras (char unsigned cadena[t], int kaux) {
+	int i, j, k , auxi, mat[5][5], esp, espi, auxj, contletra, contador;
 	char unsigned var, resp;
 	esp=0;
 	resp=0;
+	auxj=4;
 	do {
-		k=0;
+		k=kaux;
+		contletra=kaux;
 		auxi=0;
-		do {  //bucle de cadena
-		Sleep (40);
+		Sleep (500);
 			for (i=auxi; i<5; i=auxi) { //avance en filas de la matriz
-			
-				if (k==0) {
+				/*if (k==-1) {
 					for (espi=0; espi<esp; espi++) {
 							printf ("  ");
 					}
-				} //condicion de movimiento de letras
+				} //condicion de movimiento de letras*/
 				
-				for (j=0; j<5; j++) { //avance en columnas de la matriz
-					if (cadena[k]=='\0') {
-						auxi++;
-						k=0;
-						printf ("\n");
-						break;
-					}
+				for (j=auxj; j<5; j++) {	
 					var=cadena[k];
 					switches (var, mat, i);
+					imprimir (mat, i, j);
+				//	printf (" %d", j);
 					
-					if (cadena[k]!=' ') {
-						imprimir (mat, i, j);
+					if (k==kaux && j==4) {
+						auxi++;
+						printf ("\n");
 					}
-					
-					if (j==4) {
-						k++;
-					}
-				} //fin columnas
-				
+				/*	if (j==0) {
+						k--;
+					}*/
+				} //fin JJJJJJJJJJJJJ columnas
 			}  //fin filas
-		} while (auxi!=i); //fin bucle cadena
-		Sleep (40);
+			if (auxj==0) {
+					auxj=5;
+			}
+			auxj--;
+		Sleep (500);
 		system ("CLS");
 		esp++;
 		if (kbhit()) {
