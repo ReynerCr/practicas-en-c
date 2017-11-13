@@ -50,7 +50,7 @@ void imprimir (int mat[5][5], int i, int j);
 void switches (char unsigned var, int mat[5][5], int i);
 void copiarmat (int original[5][5], int copia[5][5], int i);
 void primvez (char unsigned var, int auxj, int *auxi, int i, int kaux, int *k);
-void continualet (char unsigned var, int i, int *k, int kaux, int *auxi);
+void continualet (char unsigned var, int i, int *k, int kaux, int *auxi, int *contador);
 //PROTOTIPOS
 //-----------------------------------------
 
@@ -90,31 +90,35 @@ void letras (char unsigned cadena[t], int kaux) {
 	contador=0;
 	do {
 		auxi=0;
-		cont=0;
 		Sleep (100);
 			for (i=auxi; i<5; i=auxi) { //avance en filas de la matriz
-				/*if (k==0 && auxj==-1) {
+				if (k==0) {
+					esp++;
 					for (espi=0; espi<esp; espi++) {
 							printf (" ");
 					}
 				} //condicion de movimiento de letras*/
 				var=cadena[k];
 
-				if (k==contletra) {
-					primvez (var, auxj, &auxi, i, kaux, &k);
-				}
+	//			if (k==contletra) {
+				//	primvez (var, auxj, &auxi, i, kaux, &k);
+					//printf ("L%dL", k);
+	//			}
 					
-				else {
-					continualet (var, i, &k, kaux, &auxi);
-				}
-				
+				//else {
+					continualet (var, i, &k, kaux, &auxi, &contador);
+					//printf ("T%dT", k);
+	//			}
 			}//fin filas
-			contador++;
 			
-			if (contador==5 && contletra-1>=0) {
+			contador++;
+			printf (".%d.", contador);
+			if (contador==5) {
 				contador=0;
-				contletra--;
-				k=contletra;
+				if (contletra-1>=0) {
+					contletra--;
+					k=contletra;
+				}
 			}
 			
 			if (auxj==0) {
@@ -123,7 +127,6 @@ void letras (char unsigned cadena[t], int kaux) {
 			auxj--;
 		Sleep (100);
 		system ("CLS");
-		esp++;
 		if (kbhit()) {
 			resp=getch();
   		}
@@ -132,20 +135,28 @@ void letras (char unsigned cadena[t], int kaux) {
 //-----------------------------------------
 
 void primvez (char unsigned var, int auxj, int *auxi, int i, int kaux, int *k) {
-	int j, mat[5][5];
+	int j, mat[5][5], aux;
+	aux=*k;
 	for (j=auxj; j<5; j++) {	
 		switches (var, mat, i);
 		imprimir (mat, i, j);
+	
+		if (j==4 && *k!=kaux) {
+			printf ("  ");
+			*k=*k+1;
+		}//condicion de cambio de letra
 		
-		if (*k==kaux && j==4) {
+		else if (*k==kaux && j==4) {
 			*auxi=*auxi+1;
 			printf ("\n");
-		}
+			*k=aux;
+			break;
+		}//condicion de cambio de fila
 	} //fin columnas
 }//VOID INICIOLETRA
 //-----------------------------------------
 
-void continualet (char unsigned var, int i, int *k, int kaux, int *auxi){
+void continualet (char unsigned var, int i, int *k, int kaux, int *auxi, int *contador){
 	int aux, mat[5][5], j;
 	aux=*k;
 	
@@ -154,16 +165,20 @@ void continualet (char unsigned var, int i, int *k, int kaux, int *auxi){
 		imprimir (mat, i, j);
 		
 		if (j==4 && *k!=kaux) {
+			printf ("  ");
 			*k=*k+1;
-			break;
-		}
+		}//condicion de cambio de letra
 		
-		if (*k==kaux && j==4) {
+		else if (*k==kaux && j==4) {
 			*auxi=*auxi+1;
 			*k=aux;
 			printf ("\n");
 			break;
-		}
+		}//condicion de cambi o de linea
+		
+		if (i==4 && *k==kaux && j==4) {
+			
+		}//condicion para contletra
 	} //fin columnas
 	
 }//VOID CONTINUALET
