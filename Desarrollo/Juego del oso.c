@@ -141,59 +141,44 @@ void imprimir (int F, int C, int mat[F][C], int cf, int cc) {
 	int i, j;
 	for (i=0; i<F; i++) {
 		for (j=0; j<C; j++) {
+			SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),15);
+			
 			if (mat[i][j]==0) {  // punto
-				SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),15);
 				if (cf==i && cc==j) 
 					SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),31);
 				printf ("%c ", 250);
 			}
-			if (mat[i][j]==1) {
-				SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),15);
+			
+			//COLORES
+			if (mat[i][j]==1 || mat[i][j]==2) {
 				if (cf==i && cc==j) 
 					SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),31);
+			}//blanco
+				
+			else if (mat[i][j]==3 || mat[i][j]==4) {
+				SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),10);
+				if (cf==i && cc==j) 
+					SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),26);
+			}//verde
+			
+			else if (mat[i][j]==5 || mat[i][j]==6) {
+				SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),12);
+				if (cf==i && cc==j)
+					SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),28);
+			}//rojo
+			
+			else if (mat[i][j]==7 || mat[i][j]==8) {
+				SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),14);
+				  if (cf==i && cc==j)
+				  	SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),30);
+			}//amarillo
+			//COLORES
+		
+			if (mat[i][j]==1 || mat[i][j]==3 || mat[i][j]==5 || mat[i][j]==7) {
 				printf ("O ");
-			}
-			if (mat[i][j]==2) {
-				SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),15);
-				if (cf==i && cc==j) 
-					SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),31);
-				printf ("S ");
 			}
 			
-			if (mat[i][j]==3) {
-				SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),10);
-				if (cf==i && cc==j)
-					SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),26);
-				printf ("O ");
-			}
-			if (mat[i][j]==4) {
-				SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),10);
-				if (cf==i && cc==j)
-					SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),26);
-				printf ("S ");
-			}
-			if (mat[i][j]==5) {
-				SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),12);
-				if (cf==i && cc==j)
-					SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),28);
-				printf ("O ");
-			}
-			if (mat[i][j]==6) {
-				SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),12);
-				if (cf==i && cc==j)
-					SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),28);
-				printf ("S ");
-			}
-			if (mat[i][j]==7) {
-				SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),14);
-				if (cf==i && cc==j)
-					SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),30);
-				printf ("O ");
-			}
-			if (mat[i][j]==8) {
-				SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),14);
-				if (cf==i && cc==j)
-					SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),30);
+			if (mat[i][j]==2 || mat[i][j]==4 || mat[i][j]==6 || mat[i][j]==8) {
 				printf ("S ");
 			}
 		SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE),15);
@@ -310,13 +295,13 @@ void oso (int F, int C, int mat[F][C], int validacion[F][C], jugador **X, char t
 					if (mat[i][j]==1) {
 						mat[i][j]=5;
 						
-						if (mat[i+1][j]==(4 || 2)) {
+						if (mat[i+1][j]==4 || mat[i+1][j]==2) {
 							if (mat[i+1][j]==4)
 								mat[i+1][j]=8;
 							else if (mat[i+1][j]==2) 
 								mat[i+1][j]=6;
 						}
-						if (mat[i+2][j]==(3 || 1)) {
+						if (mat[i+2][j]==3 || mat[i+2][j]==1) {
 							if (mat[i+2][j]==3)
 								mat[i+2][j]=7;
 							else if (mat[i+2][j]==1) 
@@ -327,73 +312,140 @@ void oso (int F, int C, int mat[F][C], int validacion[F][C], jugador **X, char t
 				
 				if (turno=='B') {
 					if (mat[i][j]==1) {
-						mat[i][j]=3;
-						if (mat[i+1][j]==(6 || 2)) {
+						mat[i][j]=3; //o
+						if (mat[i+1][j]==6 || mat[i+1][j]==2) {
 							if (mat[i+1][j]==6)
 								mat[i+1][j]=8;
 							else if (mat[i+1][j]==2) 
 								mat[i+1][j]=4;
-						}
-						if (mat[i+2][j]==(5 || 1)) {
+						}//s
+						if (mat[i+2][j]==5 || mat[i+2][j]==1) {
 							if (mat[i+2][j]==5)
 								mat[i+2][j]=7;
-							else if (mat[i+1][j]==1) 
-								mat[i+1][j]=3;
-						}
+							else if (mat[i+2][j]==1) 
+								mat[i+2][j]=3;
+						}//o
 					}//mat==1					
 				}//turno 'B'
 			}//oso en vertical bajando
 			
-		/*	if (i-2>0 && validacion[i][j]==1 && validacion[i-1][j]==2 && validacion[i-2][j]==1) {
+			else if (i-2>=0 && validacion[i][j]==1 && validacion[i-1][j]==2 && validacion[i-2][j]==1) {
 				if (turno=='A') {
 					if (mat[i][j]==1) {
-						mat[i][j]=5;
-						var++;
-						if (mat[i-1][j]==(4 || 8)) {
-							var++;
+						mat[i][j]=5; //o
+						
+						if (mat[i-1][j]==4 || mat[i-1][j]==2) {
 							if (mat[i-1][j]==4)
 								mat[i-1][j]=8;
-						}
-					
-						if (mat[i-2][j]==(3 || 7)) {
-							var++;
+							else if (mat[i-1][j]==2) 
+								mat[i-1][j]=6;
+						}//s
+						if (mat[i-2][j]==3 || mat[i-2][j]==1) {
 							if (mat[i-2][j]==3)
 								mat[i-2][j]=7;
-						}
-						
-						if (var==3) {
-							continue;
-						}//var==3
-						mat[i-1][j]=6;
-						mat[i-2][j]=5;
+							else if (mat[i-2][j]==1) 
+								mat[i-2][j]=5;
+						}//o
 					}//mat==1
 				}//turno=='A'
 				
 				if (turno=='B') {
-					if (mat[i][j]==1) { 
-						mat[i][j]=3;
-						var++;
-						if (mat[i-1][j]==(6 || 8)) {
-							var++;
+					if (mat[i][j]==1) {
+						mat[i][j]=3; //o
+						if (mat[i-1][j]==6 || mat[i-1][j]==2) {
 							if (mat[i-1][j]==6)
 								mat[i-1][j]=8;
-						}
-					
-						if (mat[i-2][j]==(5 || 7)) {
-							var++;
+							else if (mat[i-1][j]==2) 
+								mat[i-1][j]=4;
+						}//s
+						if (mat[i-2][j]==5 || mat[i-2][j]==1) {
 							if (mat[i-2][j]==5)
 								mat[i-2][j]=7;
-						}
-						
-						if (var==3) {
-							continue;
-						}//var==3
-						mat[i-1][j]=4;
-						mat[i-2][j]=3;
+							else if (mat[i-2][j]==1) 
+								mat[i-2][j]=3;
+						}//o
 					}//mat==1					
 				}//turno 'B'
-			}//oso en vertical subiendo	
-			*/
+			}//oso en vertical subiendo
+			
+			else if (j-2>=0 && validacion[i][j]==1 && validacion[i][j-1]==2 && validacion[i][j-2]==1) {
+				if (turno=='A') {
+					if (mat[i][j]==1) {
+						mat[i][j]=5; //o
+						
+						if (mat[i][j-1]==4 || mat[i][j-1]==2) {
+							if (mat[i][j-1]==4)
+								mat[i][j-1]=8;
+							else if (mat[i][j-1]==2) 
+								mat[i][j-1]=6;
+						}//s
+						if (mat[i][j-2]==3 || mat[i][j-2]==1) {
+							if (mat[i][j-2]==3)
+								mat[i][j-2]=7;
+							else if (mat[i][j-2]==1) 
+								mat[i][j-2]=5;
+						}//o
+					}//mat==1
+				}//turno=='A'
+				
+				if (turno=='B') {
+					if (mat[i][j]==1) {
+						mat[i][j]=3; //o
+						if (mat[i][j-1]==6 || mat[i][j-1]==2) {
+							if (mat[i][j-1]==6)
+								mat[i][j-1]=8;
+							else if (mat[i][j-1]==2) 
+								mat[i][j-1]=4;
+						}//s
+						if (mat[i][j-2]==5 || mat[i][j-2]==1) {
+							if (mat[i][j-2]==5)
+								mat[i][j-2]=7;
+							else if (mat[i][j]==1) 
+								mat[i][j-2]=3;
+						}//o
+					}//mat==1					
+				}//turno 'B'
+			}//oso en horizontal izq a der
+			
+			else if (j+2<C && validacion[i][j]==1 && validacion[i][j+1]==2 && validacion[i][j+2]==1) {
+				if (turno=='A') {
+					if (mat[i][j]==1) {
+						mat[i][j]=5; //o
+						
+						if (mat[i][j+1]==4 || mat[i][j+1]==2) {
+							if (mat[i][j+1]==4)
+								mat[i][j+1]=8;
+							else if (mat[i][j+1]==2) 
+								mat[i][j+1]=6;
+						}//s
+						if (mat[i][j+2]==3 || mat[i][j+2]==1) {
+							if (mat[i][j+2]==3)
+								mat[i][j+2]=7;
+							else if (mat[i][j+2]==1) 
+								mat[i][j+2]=5;
+						}//o
+					}//mat==1
+				}//turno=='A'
+				//SE PUEDE FORMAR OSO PONIENDO LA S, REVISAR Y AÑADIR ESTE CASO.
+				if (turno=='B') {
+					if (mat[i][j]==1) {
+						mat[i][j]=3; //o
+						if (mat[i][j+1]==6 || mat[i][j+1]==2) {
+							if (mat[i][j+1]==6)
+								mat[i][j+1]=8;
+							else if (mat[i][j+1]==2) 
+								mat[i][j+1]=4;
+						}//s
+						if (mat[i][j+2]==5 || mat[i][j+2]==1) {
+							if (mat[i][j+2]==5)
+								mat[i][j+2]=7;
+							else if (mat[i][j]==1) 
+								mat[i][j+2]=3;
+						}//o
+					}//mat==1					
+				}//turno 'B'
+			}//oso en horizontal der a izq
+			
 		}//for j
 	}	//for i
 }//FIN OSO
