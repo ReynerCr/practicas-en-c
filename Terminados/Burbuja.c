@@ -28,7 +28,7 @@ int main () {
 	
 	auxj=t-1; //inicializacion de auxj;
 	
-	for (i=0; i<t; i++) {
+	for (i=0; i<t-1; i++) {
 		for (j=0; j<auxj; j++) {
 			if (vector[j+1]==0) {
 				auxj=j-1;
