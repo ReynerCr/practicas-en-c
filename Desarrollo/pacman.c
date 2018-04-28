@@ -31,10 +31,10 @@
 // FIN LIBRERIAS Y DEFINE
 //---------------------------------------------
 
-void mapita (int mat[PF][PC], int nivel);
-int copiarmapita (int orig[PF][PC], int copia[PF][PC]);
+void mapita (int mat[PF][PC], int matcomp[PF][PC], int nivel);
 void imprimir (int mat[PF][PC], int contdin, int contvid);
 void fantasmatonto (int mat[PF][PC], int *ftf, int *ftc, int *dirft);
+void fantasmainteligente (int mat [PF][PC], int *fit, int *fic, int *dirfi);
 int juego (int mat[PF][PC], int nivel);
 // DECLARACION DE FUNCIONES
 // ---------------------------------------------
@@ -80,20 +80,21 @@ int wherey()
 
 
 int main() {
-	int mat[PF][PC], nivel;
+	int mat[PF][PC], matcomp[PF][PC], nivel;
 	printf ("Controles:\n\nArriba\t\tAbajo\nIzquierda\tDerecha\nPulse una tecla DIFERENTE a las FLECHAS para continuar.\nPulse X para salir.");
 	fflush (stdin);
 	getch ();
 	system ("cls");
-	mapita (mat, nivel);
+	mapita (mat, matcomp, nivel);
 	juego (mat, nivel);
 	return 0;
 } // INT MAIN
 //----------------------------------------------
 
 
-void mapita (int mat[PF][PC], int nivel) {
-	int map[PF][PC]={{a, b, b, b, b, b, b, b, b, b, h, b, b, b, b, b, b, b, b, b, c},  //20 contando desde 0
+void mapita (int mat[PF][PC], int matcomp[PF][PC], int nivel) {
+	//matriz para mostrar al usuario
+	matcomp[PF][PC]={{a, b, b, b, b, b, b, b, b, b, h, b, b, b, b, b, b, b, b, b, c},  //20 contando desde 0
       				 {d, o, o, o, o, o, o, o, o, o, d, o, o, o, o, o, o, o, o, o, d},
       			 	 {d, o, a, b, c, o, a, b, c, o, d, o, a, b, c, o, a, b, c, o, d},
      				 {d, t, d, k, d, o, d, k, d, o, d, o, d, k, d, o, d, k, d, t, d},
@@ -116,19 +117,35 @@ void mapita (int mat[PF][PC], int nivel) {
      			  	 {d, o, b, b, b, b, v, b, b, o, d, o, b, b, v, b, b, b, b, o, d},
      			  	 {d, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, d},
      			  	 {f, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, g}};
+					
+	   //matriz para comprobar cosillas				
+	mat[PF][PC]={{a, b, b, b, b, b, b, b, b, b, h, b, b, b, b, b, b, b, b, b, c},  //20 contando desde 0
+      				 	 {d, o, o, o, o, o, o, o, o, o, d, o, o, o, o, o, o, o, o, o, d},
+	      			 	 {d, o, a, b, c, o, a, b, c, o, d, o, a, b, c, o, a, b, c, o, d},
+	     				 {d, t, d, k, d, o, d, k, d, o, d, o, d, k, d, o, d, k, d, t, d},
+	      				 {d, o, f, b, g, o, f, b, g, o, d, o, f, b, g, o, f, b, g, o, d},
+	      				 {d, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, d},
+	        			 {d, o, b, b, b, o, d, o, b, b, h, b, b, o, d, o, b, b, b, o, d},
+	        			 {d, o, o, o, o, o, d, o, o, o, d, o, o, o, d, o, o, o, o, o, d},
+	      			  	 {f, b, b, b, c, o, y, b, b, k, d, k, b, b, z, o, a, b, b, b, g},
+	      			  	 {k, k, k, k, d, o, d, k, k, k, k, k, k, k, d, o, d, k, k, k, k},
+	      				 {b, b, b, b, g, o, d, k, a, n, n, n, c, k, d, o, f, b, b, b, b},
+	      			  	 {k, k, k, k, k, o, k, k, d, k, k, k, d, k, k, o, k, k, k, k, k},  //12 mitad u 11 contando desde 0
+	      			  	 {b, b, b, b, c, o, d, k, f, b, b, b, g, k, d, o, a, b, b, b, b},  
+	     			  	 {k, k, k, k, d, o, d, k, k, k, k, k, k, k, d, o, d, k, k, k, k},
+	      			  	 {a, b, b, b, g, o, d, k, b, b, h, b, b, k, d, o, f, b, b, b, c},  
+	      			  	 {d, o, o, o, o, o, o, o, o, o, d, o, o, o, o, o, o, o, o, o, d},
+	     			  	 {d, o, b, b, c, o, b, b, b, o, d, o, b, b, b, o, a, b, b, o, d}, 
+	     			  	 {d, t, o, o, d, o, o, o, o, o, p, o, o, o, o, o, d, o, o, t, d},
+	     			  	 {y, b, b, o, d, o, d, o, b, b, h, b, b, o, d, o, d, o, b, b, z},
+	     			     {d, o, o, o, o, o, d, o, o, o, d, o, o, o, d, o, o, o, o, o, d},
+	     			  	 {d, o, b, b, b, b, v, b, b, o, d, o, b, b, v, b, b, b, b, o, d},
+	     			  	 {d, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, d},
+	     			  	 {f, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, g}};
      			  	 
-     			  	 copiarmapita (map,mat);						
 } // VOID MAPITA
 //------------------------------------------
 
-
-int copiarmapita (int orig[PF][PC], int copia[PF][PC]) {
-	int i,j;
-	for(i=0;i<PF;i++)
-		for(j=0;j<PC;j++)
-			copia[i][j]=orig[i][j];
-} // INT COPIARMAPITA
-//------------------------------------------
 
 
 void imprimir (int mat[PF][PC], int contdin, int contvid) {
@@ -247,6 +264,12 @@ void fantasmatonto (int mat [PF][PC], int *ftf, int *ftc, int *dirft) {
 } // INT FANTASMATONTO
 //----------------------------------------
 
+
+void fantasmainteligente (int mat [PF][PC], int *fit, int *fic, int *dirfi) {
+	//fit y fic=fantasma inteligente fila/columna;   dirfi=direccion fantasma inteligente
+	
+}//VOID fantasmainteligente
+//----------------------------------------
 
 int juego (int mat[PF][PC], int nivel) {
 	//DECLARACION DE VARIABLES
